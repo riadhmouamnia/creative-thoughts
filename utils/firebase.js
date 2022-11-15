@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
-import { getAuth } from "firebase";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -22,7 +22,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// const analytics = getAnalytics(app);
+//when you get the error ReferenceError: window is not defined when trying to initialize Firebase analytic
+if (typeof window !== "undefined") {
+  const analytics = getAnalytics(app);
+}
 
 export const auth = getAuth();
 export const db = getFirestore(app);
