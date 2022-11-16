@@ -1,14 +1,55 @@
-import { auth } from "../utils/firebase";
+import { auth, db } from "../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 export default function post() {
   const [post, setPost] = useState({ description: "", title: "" });
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
+  console.log(user);
 
-  //submit post
-  const submitPost = (e) => {
+  //submit post:
+  const submitPost = async (e) => {
     e.preventDefault();
+
+    //run some checks:
+    if (!post.title) {
+      toast.error("Title field is empty! 😅", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500,
+      });
+      return;
+    }
+    if (!post.description) {
+      toast.error("Description field is title! 🥱", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500,
+      });
+      return;
+    }
+
+    if (post.description.length > 300) {
+      toast.error("Description is too long 😡", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500,
+      });
+      return;
+    }
+
+    //make a new post:
+    const collectionRef = collection(db, "posts");
+    await addDoc(collectionRef, {
+      ...post,
+      timestemp: serverTimestamp(),
+      user: user.uid,
+      avatar: user.photoURL,
+      username: user.displayName,
+    });
+    setPost({ description: "", title: "" });
+    return router.push("/");
   };
 
   return (
@@ -25,7 +66,6 @@ export default function post() {
           className="bg-gray-900 font-medium text-white rounded-lg py-2 px-4"
           type="text"
           placeholder="title"
-          required
           value={post.title}
           onChange={(e) => setPost({ ...post, title: e.target.value })}
         />
@@ -36,7 +76,6 @@ export default function post() {
           className="h-48 w-full font-medium py-2 text-white bg-gray-900 rounded-lg p-4"
           name="description"
           id="description"
-          required
           value={post.description}
           onChange={(e) => setPost({ ...post, description: e.target.value })}
         ></textarea>
