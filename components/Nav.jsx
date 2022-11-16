@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function Nav({ user, loading }) {
   // const [user, loading] = useAuthState(auth);
-  console.log(user);
+  // console.log(user);
 
   return (
     <div>
