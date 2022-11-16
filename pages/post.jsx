@@ -9,7 +9,6 @@ export default function post() {
   const [post, setPost] = useState({ description: "", title: "" });
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
-  console.log(user);
 
   //submit post:
   const submitPost = async (e) => {
@@ -43,7 +42,7 @@ export default function post() {
     const collectionRef = collection(db, "posts");
     await addDoc(collectionRef, {
       ...post,
-      timestemp: serverTimestamp(),
+      timestamp: serverTimestamp(),
       user: user.uid,
       avatar: user.photoURL,
       username: user.displayName,
