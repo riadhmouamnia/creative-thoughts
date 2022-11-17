@@ -2,11 +2,19 @@ import { auth, db } from "../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import Message from "../components/Message";
 import { BiLogOut, BiEdit } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Search from "../components/Search";
+import Link from "next/link";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -37,10 +45,15 @@ export default function Dashboard() {
       post.description.toLowerCase().includes(queryPosts.toLowerCase()) ||
       post.title.toLowerCase().includes(queryPosts.toLowerCase())
   );
-
   //Handle the Search:
   const handleQueryPosts = (e) => {
     setQueryPosts(e.target.value);
+  };
+
+  //Delete post
+  const deletePost = async (id) => {
+    const docRef = doc(db, "posts", id);
+    await deleteDoc(docRef);
   };
 
   return (
@@ -60,14 +73,19 @@ export default function Dashboard() {
         {filtredPosts.map((filtredPost) => (
           <Message {...filtredPost} key={filtredPost.id}>
             <div className="flex gap-2 items-center">
-              <button className="flex gap-2 items-center justify-center px-4 py-2 text-pink-600 hover:text-pink-300">
+              <button
+                onClick={() => deletePost(filtredPost.id)}
+                className="flex gap-2 items-center justify-center px-4 py-2 text-pink-600 hover:text-pink-300"
+              >
                 <RiDeleteBin6Line />
                 Delete
               </button>
-              <button className="flex gap-2 items-center justify-center px-4 py-2 text-teal-600 hover:text-teal-300">
-                <BiEdit />
-                Edit
-              </button>
+              <Link href={{ pathname: "/post", query: filtredPost }}>
+                <button className="flex gap-2 items-center justify-center px-4 py-2 text-teal-600 hover:text-teal-300">
+                  <BiEdit />
+                  Edit
+                </button>
+              </Link>
             </div>
           </Message>
         ))}
