@@ -88,7 +88,7 @@ export default function Comments() {
             <h2>Comments</h2>
             {allComments?.map((comment) => (
               <div
-                key={comment.timestamp}
+                key={comment.time}
                 className="my-4 p-4 border-gray-800 border-solid border-b-2"
               >
                 <div className="flex gap-2 items-center ">
