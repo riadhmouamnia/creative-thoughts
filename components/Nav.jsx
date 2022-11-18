@@ -42,6 +42,7 @@ export default function Nav({ user, loading }) {
                   className="w-12 rounded-full"
                   src={user.photoURL}
                   alt={user.displayName}
+                  referrerPolicy="no-referrer"
                 />
               </Link>
             </div>
