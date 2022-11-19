@@ -135,7 +135,7 @@ export default function post() {
         </p>
         <button
           type="submit"
-          className="flex align-middle text-lg text-center justify-center items-center bg-cyan-800 rounded-md hover:bg-cyan-600 font-medium my-6 p-4 w-full"
+          className="flex align-middle text-lg text-center justify-center items-center text-white bg-cyan-800 rounded-md hover:bg-cyan-600 font-medium my-6 p-4 w-full"
         >
           Submit
         </button>
