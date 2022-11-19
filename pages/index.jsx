@@ -37,7 +37,7 @@ export default function Home() {
           <section>
             {allPosts.map((post) => (
               <Message key={post.id} {...post}>
-                <Link href={{ pathname: `/${post.id}`, query: { ...post } }}>
+                <Link href={{ pathname: `/${post.id}` }}>
                   <button className="p-2">
                     {post.comments?.length > 0 ? post.comments?.length : 0}{" "}
                     comments

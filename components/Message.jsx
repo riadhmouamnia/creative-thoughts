@@ -8,9 +8,7 @@ export default function Message({
   description,
   timestamp,
 }) {
-  const time = timestamp
-    ? moment(timestamp.toDate()).calendar()
-    : console.log(timestamp);
+  const time = timestamp ? moment(timestamp.toDate()).calendar() : "";
 
   // const [date, setDate] = useState("");
   // const [atTime, setAtTime] = useState("");

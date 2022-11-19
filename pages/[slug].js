@@ -7,6 +7,7 @@ import { FaRegCommentDots } from "react-icons/fa";
 import {
   arrayUnion,
   doc,
+  getDoc,
   onSnapshot,
   Timestamp,
   updateDoc,
@@ -16,9 +17,16 @@ import moment from "moment";
 export default function Comments() {
   const router = useRouter();
   const routeData = router.query;
-  console.log(routeData);
+  const [postData, setPostData] = useState({});
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
+
+  //get post data from firbase
+  const getPostData = async () => {
+    const docRef = doc(db, "posts", routeData.slug);
+    const docData = await getDoc(docRef);
+    setPostData(docData.data());
+  };
 
   //submit comment
   const submitComment = async (e) => {
@@ -32,7 +40,7 @@ export default function Comments() {
       });
       return;
     }
-    const docRef = doc(db, "posts", routeData.id);
+    const docRef = doc(db, "posts", routeData.slug);
     await updateDoc(docRef, {
       comments: arrayUnion({
         comment,
@@ -47,7 +55,7 @@ export default function Comments() {
 
   //get comments
   const getComments = async () => {
-    const docRef = doc(db, "posts", routeData.id);
+    const docRef = doc(db, "posts", routeData.slug);
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
       setAllComments(snapshot.data().comments);
     });
@@ -56,14 +64,13 @@ export default function Comments() {
 
   useEffect(() => {
     if (!router.isReady) return;
+    getPostData();
     getComments();
   }, [router.isReady]);
 
-  //time
-
   return (
     <section>
-      <Message {...routeData}></Message>
+      <Message {...postData}></Message>
       <div>
         <form onSubmit={submitComment} className="py-6 flex">
           <div className="flex items-center rounded-l-lg w-full bg-gray-800 p-2 gap-2 text-white text-sm">
@@ -113,7 +120,7 @@ export default function Comments() {
             )}
           </div>
         ) : (
-          <p className="py-10 text-center">Loading comments...</p>
+          <p className="py-20 text-center">Loading comments...</p>
         )}
       </div>
     </section>
