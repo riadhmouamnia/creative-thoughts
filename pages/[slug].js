@@ -87,7 +87,7 @@ export default function Comments() {
           </div>
           <button
             type="submit"
-            className="bg-cyan-800 rounded-r-lg hover:bg-cyan-600 p-2 text-sm"
+            className="bg-cyan-800 rounded-r-lg hover:bg-cyan-600 p-2 text-white text-sm"
           >
             Submit
           </button>

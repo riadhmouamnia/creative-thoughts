@@ -73,7 +73,7 @@ export default function Login() {
         </form> */}
         <button
           onClick={googleLogin}
-          className="flex align-middle items-center gap-2 bg-cyan-800 rounded-md hover:bg-cyan-600 font-medium p-4 w-full"
+          className="flex align-middle items-center gap-2 text-white bg-cyan-800 rounded-md hover:bg-cyan-600 font-medium p-4 w-full"
         >
           <FcGoogle className="text-2xl" /> Sign in with Google
         </button>
