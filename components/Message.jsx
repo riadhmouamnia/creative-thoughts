@@ -10,28 +10,6 @@ export default function Message({
 }) {
   const time = timestamp ? moment(timestamp.toDate()).calendar() : "";
 
-  // const [date, setDate] = useState("");
-  // const [atTime, setAtTime] = useState("");
-
-  // const getTime = async () => {
-  //   const fireBaseTime = new Date(
-  //     timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-  //   );
-  //   setDate(fireBaseTime.toDateString());
-  //   setAtTime(fireBaseTime.toLocaleTimeString());
-  // };
-
-  // useEffect(() => {
-  //   if (!timestamp) return;
-  //   getTime();
-  // }, []);
-  //.........................Method 2
-  // const fireBaseTime = new Date(
-  //   timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-  // );
-  // const date = fireBaseTime.toDateString();
-  // const atTime = fireBaseTime.toLocaleTimeString();
-
   return (
     <div className="py-8 border-gray-800 border-solid border-b-2">
       <div className="flex itmes-center gap-2">
